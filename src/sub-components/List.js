@@ -29,6 +29,7 @@ class ItemDetails extends Component {
                         editMode: true
                     })
                 }}>Edit</button>
+                <button onClick={() => this.props.delete(this.props.idx)}>Delete</button>
             </div>
         }</div>)
     }
@@ -39,26 +40,19 @@ class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filter: this.props.filter,
-            editMode: false,
+            filter: props.filter
         }
-    }
-
-    editSwitch() {
-
     }
 
     render() {
         console.log("in render, todos: ", this.props.todos, this.props.filter);
-
-        // return JSON.stringify(this.props.todos);
 
         if(this.props.filter==="all"){
 
             return this.props.todos
             .map((item, idx) => { 
                 return (
-                    <ItemDetails key={idx} idx={idx} item={item} handleTick={this.props.handleTick} edit={this.props.edit}/>
+                    <ItemDetails key={idx} idx={idx} item={item} handleTick={this.props.handleTick} edit={this.props.edit} delete={this.props.delete}/>
                 )}
             )
 
@@ -68,7 +62,7 @@ class List extends Component {
             .filter(todo => todo.ticked === true)
             .map((item, idx) => { 
                 return (
-                    <ItemDetails key={idx} idx={idx} item={item} handleTick={this.props.handleTick} edit={this.props.edit}/>
+                    <ItemDetails key={idx} idx={idx} item={item} handleTick={this.props.handleTick} edit={this.props.edit} delete={this.props.delete}/>
                 )}
             )
 
@@ -77,7 +71,7 @@ class List extends Component {
             .filter(todo => todo.ticked === false)
             .map((item, idx) => { 
                 return (
-                    <ItemDetails key={idx} idx={idx} item={item} handleTick={this.props.handleTick} edit={this.props.edit}/>
+                    <ItemDetails key={idx} idx={idx} item={item} handleTick={this.props.handleTick} edit={this.props.edit} delete={this.props.delete}/>
                 )}
             )
         } 

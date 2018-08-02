@@ -15,13 +15,13 @@ class App extends Component {
     }
     this.edit = this.edit.bind(this);
     this.add = this.add.bind(this);
+    this.delete = this.delete.bind(this);
     this.handleTick = this.handleTick.bind(this);
   }
 
   add(val) {
     this.setState({todos: [...this.state.todos, {value: val, ticked: false}]});
     this.setState({itemsLeft: this.state.itemsLeft+1});
-    console.log('in handle submit, itemsleft: ', this.state.itemsLeft);
     this.state.itemsLeft === 1 ? this.setState({itemsLeftStr: 'item left'}) : this.setState({itemsLeftStr: 'items left'});
   }
 
@@ -29,6 +29,11 @@ class App extends Component {
     let newTodos = this.state.todos;
     newTodos[idx]['value'] = val;
     this.setState({todos: newTodos});
+  }
+
+  delete(idx) {
+    this.state.todos.splice(idx, 1);
+    this.setState({todos: this.state.todos, itemsLeft: this.state.itemsLeft-1});
   }
 
   handleTick(idx) {
@@ -39,7 +44,6 @@ class App extends Component {
       this.setState({itemsLeft: this.state.itemsLeft-1});
       this.state.itemsLeft === 1 ? this.setState({itemsLeftStr: 'item left'}) : this.setState({itemsLeftStr: 'items left'});
     }
-    console.log('in handle tick, itemsleft: ', this.state.itemsLeft);
   }
 
   handleFilter(spec) {
@@ -50,7 +54,7 @@ class App extends Component {
     return (
       <div className="App">
         <Form value={this.state.value} add={this.add}/>
-        <List todos={this.state.todos} handleTick={this.handleTick} edit={this.edit} filter={this.state.filter}/>
+        <List todos={this.state.todos} handleTick={this.handleTick} edit={this.edit} delete={this.delete} filter={this.state.filter}/>
         <div className="bottom-bar">
           <p>{this.state.itemsLeft + " " + this.state.itemsLeftStr}</p>
           <div className="filter">
